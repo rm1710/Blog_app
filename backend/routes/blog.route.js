@@ -1,6 +1,6 @@
 import express from 'express';
 import { createBlog } from '../controller/blog.controller.js';
-import { isAuthenticated } from '../middleware/authUser.js';
+import { isAuthenticated, isAdmin } from '../middleware/authUser.js';
 
 const router= express.Router();
 
