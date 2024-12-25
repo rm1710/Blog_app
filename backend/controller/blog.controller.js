@@ -84,6 +84,18 @@ export const getSingleBlogs = async (req,res) => {
 };
 
 export const getMyBlogs = async (req,res) => {    
-    const MyBlogs = await Blog.find({createdBy:req?.user?._id});
+    const MyBlogs = await Blog.find({createdBy});
     res.status(200).json({MyBlogs});
+};
+
+export const updateBlog = async (req,res) => {
+    const {id}= req.params;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(400).json({message:"Invalid blog id"});
+    }
+    const updateBlog = await Blog.findByIdAndUpdate(id, req.body, {new:true});
+    if(!updateBlog){
+        return res.status(404).json({message:"Blog not found"});
+    }
+    res.status(200).json(updateBlog);
 };
