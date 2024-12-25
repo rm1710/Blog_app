@@ -2,8 +2,9 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 export const isAuthenticated = async (req, res, next) => {
+
     try {
-        const token = req.cookies.token; // Ensure cookies middleware is enabled in your Express app
+        const token = req.cookies.jwt; // Ensure cookies middleware is enabled in your Express app
         console.log("Middleware: ", token);
 
         if (!token) {
