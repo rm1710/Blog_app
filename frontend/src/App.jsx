@@ -11,6 +11,7 @@ import Register from '../src/pages/Register';
 import Dashboard from '../src/pages/Dashboard';
 import Creators from '../src/pages/Creators';
 import { useAuth } from "./context/AuthProvider";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
         <Route exact path="/register" element={<Register/>} />
         <Route exact path="/dashboard" element={<Dashboard/>} />
       </Routes>
+      <Toaster/>
     {/* {!hideNavbarFooter && <Footer />} */}
   </div>
   );
