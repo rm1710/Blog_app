@@ -11,7 +11,9 @@ export const AuthProvider = ({children}) => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try{
-                const {data} = await axios.get("http://localhost:3000/api/blogs/all-blogs");
+                const {data} = await axios.get("http://localhost:3000/api/blogs/all-blogs",
+                {withCredentials: true}
+                );
                 console.log(data);
                 setBlogs(data);
             }catch(error){

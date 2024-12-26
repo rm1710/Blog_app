@@ -4,7 +4,7 @@ import { User } from "../models/user.model.js";
 export const isAuthenticated = async (req, res, next) => {
 
     try {
-        const token = req.cookies.jwt; // Ensure cookies middleware is enabled in your Express app
+        const token = req.cookies.jwt;
         console.log("Middleware: ", token);
 
         if (!token) {
@@ -18,8 +18,8 @@ export const isAuthenticated = async (req, res, next) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        req.user = user; // Attach the user to the request object
-        next(); // Call the next middleware
+        req.user = user; 
+        next(); 
     } catch (error) {
         console.error("Error occurring in Authentication: ", error);
         return res.status(401).json({ error: "User not authenticated" });
@@ -32,7 +32,7 @@ export const isAdmin = (...roles) => {
             if (!roles.includes(req.user.role)) {
                 return res.status(403).json({ error: `User with role ${req.user.role} is not allowed` });
             }
-            next(); // Call the next middleware
+            next();
         } catch (error) {
             console.error("Error in isAdmin middleware: ", error);
             return res.status(500).json({ error: "Internal server error" });
