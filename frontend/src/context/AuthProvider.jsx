@@ -6,12 +6,12 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const [blogs, setBlogs] = useState();
-    const [token, setToken] = useState(localStorage.getItem('token') || '');
+   
 
     useEffect(() => {
         const fetchBlogs = async () => {
             try{
-                const {data} = await axios.get("http://localhost:3000/api/blogs/all-blogs", { withCredentials: true });
+                const {data} = await axios.get("http://localhost:3000/api/blogs/all-blogs");
                 console.log(data);
                 setBlogs(data);
             }catch(error){
@@ -19,9 +19,9 @@ export const AuthProvider = ({children}) => {
             }
         };
         fetchBlogs();
-    }, [token]); 
+    }, []); 
   return (
-    <AuthContext.Provider value={{blogs, token, setToken}}>
+    <AuthContext.Provider value={{blogs}}>
       {children}
     </AuthContext.Provider>
   )

@@ -21,7 +21,7 @@ function App() {
   <div>
     {!hideNavbarFooter && <Navbar />}
       <Routes>
-        <Route exact path="/" element={<Home/>} />
+        {/* <Route exact path="/" element={<Home/>} /> */}
         <Route exact path="/blogs" element={<Blogs/>} />
         <Route exact path="/about" element={<About/>} />
         <Route exact path="/contact" element={<Contact/>} />
@@ -30,7 +30,7 @@ function App() {
         <Route exact path="/register" element={<Register/>} />
         <Route exact path="/dashboard" element={<Dashboard/>} />
       </Routes>
-    {!hideNavbarFooter && <Footer />}
+    {/* {!hideNavbarFooter && <Footer />} */}
   </div>
   );
 }
