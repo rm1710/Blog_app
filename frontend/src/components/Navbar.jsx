@@ -11,9 +11,9 @@ function Navbar() {
   console.log(blogs);
   return (
       <>
-        <nav  className='shadow-lg px-4 py-3'>
+        <nav className='shadow-lg px-7 py-3 bg-red-100'>
           <div className='flex items-center justify-between container mx-auto'>
-            <div className='font-semibold text-xl'>True
+            <div className='font-semibold text-3xl'>True
               <span className='text-red-600'>Blogs</span>
             </div>
             {/* Desktop */}
