@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 function Hero() {
     const { blogs } = useAuth();
-
     return (
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6">
             {blogs && blogs.allblogs && blogs.allblogs.length > 0 ? (

@@ -18,8 +18,8 @@ export const isAuthenticated = async (req, res, next) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        req.user = user; 
-        next(); 
+        req.user = user;
+        next();
     } catch (error) {
         console.error("Error occurring in Authentication: ", error);
         return res.status(401).json({ error: "User not authenticated" });
@@ -28,15 +28,10 @@ export const isAuthenticated = async (req, res, next) => {
 
 export const isAdmin = (...roles) => {
     return (req, res, next) => {
-        try {
-            if (!roles.includes(req.user.role)) {
-                return res.status(403).json({ error: `User with role ${req.user.role} is not allowed` });
-            }
-            next();
-        } catch (error) {
-            console.error("Error in isAdmin middleware: ", error);
-            return res.status(500).json({ error: "Internal server error" });
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ error: `User with given role ${req.user.role} not allowed` });
         }
+        next();
     };
 };
 
