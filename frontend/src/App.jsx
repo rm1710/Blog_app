@@ -10,8 +10,10 @@ import Login from '../src/pages/Login';
 import Register from '../src/pages/Register';
 import Dashboard from '../src/pages/Dashboard';
 import Creators from '../src/pages/Creators';
+import UpdateBlog from '../src/dashboard/UpdateBlog';
 import { useAuth } from "./context/AuthProvider";
 import { Toaster } from 'react-hot-toast';
+import Details from './pages/Details';
 
 function App() {
   const location = useLocation();
@@ -30,6 +32,9 @@ function App() {
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/register" element={<Register/>} />
         <Route exact path="/dashboard" element={<Dashboard/>} />
+        {/* update page route */}
+        <Route exact path="/blog/:id" element={<Details/>} />
+        <Route exact path="/blog/update/:id" element={<UpdateBlog/>} />
       </Routes>
       <Toaster/>
     {!hideNavbarFooter && <Footer />}

@@ -1,27 +1,46 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import { toast } from 'react-hot-toast';
 
 function MyBlogs() {
   const [myBlogs, setMyBlogs] = useState([]);
+
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
         const { data } = await axios.get('http://localhost:3000/api/blogs/my-blog', { withCredentials: true });
-        setMyBlogs(data);
+        setMyBlogs(data.MyBlogs || []);
       } catch (error) {
         console.log(error);
       }
     }
     fetchMyBlogs();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/blogs/delete/${id}`, {
+        withCredentials: true,
+      });
+      toast.success(res.data.message || "Blog deleted successfully");
+      setMyBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== id));
+    } catch (error) {
+      toast.error(error.response?.message || "Failed to delete blog");
+    }
+  };
+
   return (
     <div>
-      <div className="container mx-auto my-12 p-4">
+
+      <div className="container mr-1 mx-auto my-8 p-4">
+        <h1 className="text-3xl text-center my-2">
+          <span className="text-black-500">My Blogs</span>
+        </h1>
         <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:ml-20">
-          {myBlogs?.MyBlogs?.length > 0 ? (
-            myBlogs.MyBlogs.map((element) => (
+
+          {myBlogs.length > 0 ? (
+            myBlogs.map((element) => (
               <div
                 className="bg-white shadow-lg rounded-lg overflow-hidden"
                 key={element._id}
@@ -68,4 +87,6 @@ function MyBlogs() {
   );
 }
 
-export default MyBlogs
+export default MyBlogs;
+
+

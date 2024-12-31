@@ -21,12 +21,13 @@ function Sidebar({ setComponent }) {
     e.preventDefault();
     try {
       const { data } = await axios.get("http://localhost:3000/api/users/logout", { withCredentials: true });
+      toast.success(data.message);
       setIsAuthenticated(false);
       console.log(data);
       navigateTo("/");
     } catch (error) {
       console.log(error);
-      alert(error.response.message || "Logout failed");
+      toast.error(error.data.message || "Logout failed");
     }
   }
   return (
@@ -34,7 +35,7 @@ function Sidebar({ setComponent }) {
       <div className="sm:hidden fixed top-4 left-4 z-50" onClick={() => setShow(!show)}>
         <CiMenuBurger className='text-2xl' />
       </div>
-      <div className={`w-64 h-full shadow-lg fixed top-0 left-0 bg-gray-50 tansition-transform duration-300 transform sm:translate-x-0 ${show ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`w-64 h-full shadow-lg fixed top-0 left-0 bg-gray-50 z-40 transition-transform duration-300 transform sm:translate-x-0 ${show ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className='sm:hidden absolute top-4 right-4 text-xl cursor-pointer' onClick={() => setShow(!show)}><BiSolidLeftArrowAlt className='text-2xl' /></div>
         <div className=" text-center">
           <img className="w-24 h-24 rounded-full mx-auto mb-2" src={profile?.photo?.url} alt="" />

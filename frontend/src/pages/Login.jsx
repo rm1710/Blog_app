@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthProvider';
+
+
 
 function Login() {
+  const {isAuthenticated, setIsAuthenticated} = useAuth();
+
+  const navigateTo = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
@@ -24,9 +30,11 @@ function Login() {
       );
       console.log(data);
       toast.success(data.message ||'User Logined Successfully');
+      setIsAuthenticated(true);
       setEmail('');
       setPassword('');
       setRole('');
+      navigateTo('/');
     }catch(error){
       console.log(error);
       toast.error(error.message || "please fill required fields")
@@ -65,7 +73,7 @@ function Login() {
               />
             </div>
             <p className='text-center mb-3'>
-              New User?{"  "} <Link className="text-blue-500">Register Now</Link>
+              New User?{"  "} <Link to="/register"className="text-blue-500">Register Now</Link>
             </p>
 
             <button type="submit"className='w-full p-2 bg-red-500 hover:bg-red-600 duration-300 rounded-md text-white'>

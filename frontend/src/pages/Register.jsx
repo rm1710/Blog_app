@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthProvider';
 
 function Register() {
+  const { isAuthenticated, setIsAuthenticated, setProfile } = useAuth();
+
+  const navigateTo = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -14,16 +18,16 @@ function Register() {
   const [PhotoPreview, setPhotoPreview] = useState('');
   const changePhoteHandler = (e) => {
     console.log(e);
-    const file= e.target.files[0];
+    const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload= () => {
+    reader.onload = () => {
       setPhotoPreview(reader.result);
       setPhoto(file);
     }
   };
 
-  const handleRegister = async(e) =>{
+  const handleRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', name);
@@ -33,14 +37,18 @@ function Register() {
     formData.append('role', role);
     formData.append('education', education);
     formData.append('photo', photo);
-    try{
-      const {data} = await axios.post('http://localhost:3000/api/users/register', formData,
-      {
-        withCredentials: true,
-        headers: {'Content-Type': 'multipart/form-data',}}
+    try {
+      const { data } = await axios.post('http://localhost:3000/api/users/register', formData,
+        {
+          withCredentials: true,
+          headers: { 'Content-Type': 'multipart/form-data', }
+        }
       );
       console.log(data);
-      toast.success(data.message ||'User Registered Successfully');
+      toast.success(data.message || 'User Registered Successfully');
+      setProfile(data); //
+      set
+      setIsAuthenticated(true);
       setName('');
       setEmail('');
       setPhone('');
@@ -49,20 +57,21 @@ function Register() {
       setEducation('');
       setPhoto('');
       setPhotoPreview('');
-    }catch(error){
+      navigateTo("/")
+    } catch (error) {
       console.log(error);
       toast.error(error.message || "please fill required fields")
     }
   };
-  
+
   return (
     <div>
       <div className='flex items-center justify-center bg-gray-200 py-14 bg-gradient-to-r from-blue-100 via-purple-200 to-red-200'>
         <div className='w-full max-w-md bg-white shadow-md rounded-lg p-6'>
           <form onSubmit={handleRegister}>
-          <div className='font-bold text-3xl items-center text-center mb-4'>
-  True<span className='text-red-600'>Blogs</span>
-</div>
+            <div className='font-bold text-3xl items-center text-center mb-4'>
+              True<span className='text-red-600'>Blogs</span>
+            </div>
             <h1 className="text-xl font-semibold mb-4">Register</h1>
             <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full p-2 mb-4 border rounded-md">
               <option value="">Select Role</option>
@@ -118,7 +127,7 @@ function Register() {
             </select>
             <div className='flex items-center mb-4'>
               <div className='photo w-20 h-20 mr-4'>
-                <img src={PhotoPreview?`${PhotoPreview}`:"phtot"} alt="Photo" />
+                <img src={PhotoPreview ? `${PhotoPreview}` : "phtot"} alt="Photo" />
               </div>
               <input
                 type="file"
@@ -127,10 +136,10 @@ function Register() {
               />
             </div>
             <p className='text-center mb-3'>
-              Already Registered?{"  "} <Link className="text-blue-500">Login Now</Link>
+              Already Registered?{"  "} <Link to="/login" className="text-blue-500">Login Now</Link>
             </p>
 
-            <button type="submit"className='w-full p-2 bg-red-500 hover:bg-red-600 duration-300 rounded-md text-white'>
+            <button type="submit" className='w-full p-2 bg-red-500 hover:bg-red-600 duration-300 rounded-md text-white'>
               Register
             </button>
           </form>

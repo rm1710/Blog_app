@@ -10,7 +10,7 @@ function Hero() {
                 blogs.allblogs.slice(0, 4).map((element) => {
                     console.log(element);
                     return (
-                        <Link to={`/`} key={element._id} className='bg-white rounded-lg hover:shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 my-8'>
+                        <Link to={`/blog/${element._id}`} key={element._id} className='bg-white rounded-lg hover:shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 my-8'>
                             <div className='group relative'>
                                 <img src={element.blogImage.url} alt="" className='w-full h-56 object-cover' />
                                 <div className='absolute inset-0 bg-gradient-to-t from-black via-transparent opacity-75 group-hover:opacity-100 transition-transform duration-300'></div>
