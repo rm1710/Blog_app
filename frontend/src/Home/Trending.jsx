@@ -30,7 +30,7 @@ function Trending() {
       <h1 className="text-2xl font-semibold mb-4">Trending</h1>
       <Carousel responsive={responsive} itemClass="px-2">
         {blogs && blogs.allblogs && blogs.allblogs.length > 0 ? (
-          blogs.allblogs.slice(0, 4).map((element) => {
+          blogs.allblogs.slice(0, 6).map((element) => {
             console.log(element);
             return (
               <Link

@@ -53,7 +53,8 @@ function Register() {
       console.log(error);
       toast.error(error.message || "please fill required fields")
     }
-  }
+  };
+  
   return (
     <div>
       <div className='flex items-center justify-center bg-gray-200 py-14 bg-gradient-to-r from-blue-100 via-purple-200 to-red-200'>

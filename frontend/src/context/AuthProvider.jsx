@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 export const AuthContext = createContext();
 
-
 export const AuthProvider = ({ children }) => {
   const [blogs, setBlogs] = useState();
   const [profile, setProfile] = useState();

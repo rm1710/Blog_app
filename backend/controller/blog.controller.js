@@ -84,6 +84,7 @@ export const getSingleBlogs = async (req, res) => {
 };
 
 export const getMyBlogs = async (req, res) => {
+    const createdBy = req.user._id;
     const MyBlogs = await Blog.find({ createdBy });
     res.status(200).json({ MyBlogs });
 };
