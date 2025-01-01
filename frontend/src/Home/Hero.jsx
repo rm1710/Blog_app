@@ -27,7 +27,7 @@ function Hero() {
                     );
                 })
             ) : (
-                <div>blog not available</div>
+                <div className='text-center h-screen items-center justify-center'>Loading...</div>
             )}
         </div>
     );

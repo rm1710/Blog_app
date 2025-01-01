@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 function MyBlogs() {
+  const navigateTo = useNavigate();
   const [myBlogs, setMyBlogs] = useState([]);
 
   useEffect(() => {
@@ -24,6 +26,7 @@ function MyBlogs() {
         withCredentials: true,
       });
       toast.success(res.data.message || "Blog deleted successfully");
+      navigateTo('/');
       setMyBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== id));
     } catch (error) {
       toast.error(error.response?.message || "Failed to delete blog");
@@ -41,13 +44,13 @@ function MyBlogs() {
 
           {myBlogs.length > 0 ? (
             myBlogs.map((element) => (
-              <div
+              <Link to={`/blog/${element._id}`}
                 className="bg-white shadow-lg rounded-lg overflow-hidden"
                 key={element._id}
               >
                 {element?.blogImage && (
                   <img
-                    src={element?.blogImage.url}
+                    src={element?.blogImage?.url}
                     alt="blogImg"
                     className="w-full h-48 object-cover"
                   />
@@ -74,7 +77,7 @@ function MyBlogs() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <p className="text-center text-gray-500">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../context/AuthProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -9,8 +9,6 @@ import { toast } from 'react-hot-toast';
 function Navbar() {
   const [show, setShow] = useState(false);
   const { profile, isAuthenticated, setIsAuthenticated } = useAuth();
-  console.log(profile);
-  console.log(isAuthenticated);
   const navigate = useNavigate();
 
   const handleLogout = async (e) => {
@@ -25,6 +23,7 @@ function Navbar() {
       toast.error(error?.response?.data?.message || "Logout failed");
     }
   }
+
   return (
     <>
       <nav className='shadow-lg px-7 py-3 bg-red-100'>
@@ -35,41 +34,43 @@ function Navbar() {
           {/* Desktop */}
           <div className='mx-6 '>
             <ul className='hidden md:flex space-x-6'>
-              <Link to="/">HOME
-              </Link>
+              <Link to="/">HOME</Link>
               <Link to="/blogs">BLOGS</Link>
-              <Link to="/creators">CREATORS
-              </Link>
+              <Link to="/creators">CREATORS</Link>
               <Link to="/about">ABOUT</Link>
-              <Link to="/contact">CONTACT
-              </Link>
+              <Link to="/contact">CONTACT</Link>
             </ul>
-            <div className='md:hidden' onClick={() => setShow(!show)}>{show ? <IoCloseSharp size={24} /> : <AiOutlineMenu size={24} />}</div>
+            <div className='md:hidden' onClick={() => setShow(!show)}>
+              {show ? <IoCloseSharp size={24} /> : <AiOutlineMenu size={24} />}
+            </div>
           </div>
-          <div className="hidden md:flex space-x-2">
+          <div className="flex space-x-2">
             {isAuthenticated && profile?.role === "admin" ? (
               <Link
                 to="/dashboard"
-                className="bg-blue-600 text-white font-semibold hover:bg-blue-500 duration-300 px-4 py-2 rounded"
+                className="bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 px-4 py-2 rounded"
               >
                 DASHBOARD
               </Link>
-            ) : null}
-            {!isAuthenticated?(<Link to="/login" className='bg-blue-600 text-white font-semibold hover:bg-blue-500 duration-300 px-4 py-2 rounded'>LOGIN</Link>):(<button onClick={handleLogout} className='bg-red-600 text-white font-semibold hover:bg-red-500 duration-300 px-4 py-2 rounded'>LOGOUT</button>)}
+            ) : (
+              ""
+            )}
+            {!isAuthenticated ? (
+              <Link to="/login" className='bg-blue-600 text-white font-semibold hover:bg-blue-500 duration-300 px-4 py-2 rounded'>LOGIN</Link>
+            ) : (
+              <button onClick={handleLogout} className='bg-red-600 text-white font-semibold hover:bg-red-500 duration-300 px-4 py-2 rounded'>LOGOUT</button>
+            )}
           </div>
         </div>
         {/* Mobile Navbar */}
         {show && (
           <div className='md:hidden'>
-            <ul className='flex flex-col h-screen  items-center justify-center space-y-3 md:hidden text-xl'>
-              <Link to="/" onClick={() => setShow(!show)}>HOME
-              </Link>
+            <ul className='flex flex-col h-screen items-center justify-center space-y-3 md:hidden text-xl'>
+              <Link to="/" onClick={() => setShow(!show)}>HOME</Link>
               <Link to="/blogs" onClick={() => setShow(!show)}>BLOGS</Link>
-              <Link to="/creators" onClick={() => setShow(!show)}>CREATORS
-              </Link>
+              <Link to="/creators" onClick={() => setShow(!show)}>CREATORS</Link>
               <Link to="/about" onClick={() => setShow(!show)}>ABOUT</Link>
-              <Link to="/contact" onClick={() => setShow(!show)}>CONTACT
-              </Link>
+              <Link to="/contact" onClick={() => setShow(!show)}>CONTACT</Link>
             </ul>
           </div>
         )}
@@ -79,3 +80,4 @@ function Navbar() {
 }
 
 export default Navbar;
+

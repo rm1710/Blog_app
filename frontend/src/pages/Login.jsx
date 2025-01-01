@@ -37,7 +37,7 @@ function Login() {
       navigateTo('/');
     }catch(error){
       console.log(error);
-      toast.error(error.message || "please fill required fields")
+      toast.error(error.response.data.message || "please fill required fields")
     }
   }
   return (

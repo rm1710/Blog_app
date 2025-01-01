@@ -66,7 +66,7 @@ function Trending() {
             );
           })
         ) : (
-          <div>blog not available</div>
+          <div><div className='text-center h-screen items-center justify-center'>Loading...</div></div>
         )}
       </Carousel>
     </div>

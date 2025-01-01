@@ -40,7 +40,9 @@ function Creator() {
             );
           })
         ) : (
-          <div></div>
+          <div>
+            <div className='text-center h-screen items-center justify-center'>Loading...</div>
+          </div>
         )}
       </div>
     </div>

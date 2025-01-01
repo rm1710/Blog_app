@@ -10,20 +10,21 @@ function UpdateBlog() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [about, setAbout] = useState("");
-
-  const [blogImage, setBlogImage] = useState("");
+  const [blogImage, setBlogImage] = useState(null);
   const [blogImagePreview, setBlogImagePreview] = useState("");
   const [oldBlogImage, setOldBlogImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const changePhotoHandler = (e) => {
-    console.log(e);
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setBlogImagePreview(reader.result);
-      setBlogImage(file);
-    };
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setBlogImagePreview(reader.result);
+        setBlogImage(file);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   useEffect(() => {
@@ -35,14 +36,13 @@ function UpdateBlog() {
             withCredentials: true,
           }
         );
-        console.log(data);
-        setTitle(data.title);
-        setCategory(data.category);
-        setAbout(data.about);
-        setOldBlogImage(data.blogImage.url);
+        setTitle(data?.title || "");
+        setCategory(data?.category || "");
+        setAbout(data?.about || "");
+        setOldBlogImage(data?.blogImage?.url || "");
       } catch (error) {
-        console.log(error);
-        toast.error("Please fill the required fields");
+        console.error(error);
+        toast.error("Failed to fetch blog data.");
       }
     };
     fetchBlog();
@@ -50,11 +50,13 @@ function UpdateBlog() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
     const formData = new FormData();
+
     formData.append("title", title);
     formData.append("category", category);
     formData.append("about", about);
-
     if (blogImage) {
       formData.append("blogImage", blogImage);
     }
@@ -70,83 +72,86 @@ function UpdateBlog() {
           },
         }
       );
-      console.log(data);
-      toast.success(data.message || "Blog updated successfully");
+      toast.success(data.message || "Blog updated successfully!");
       navigateTo("/");
     } catch (error) {
-      console.log(error);
+      console.error("Error updating blog:", error);
       toast.error(
-        error.response.data.message || "Please fill the required fields"
+        error.response?.data?.message || "Failed to update the blog."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <div className="container mx-auto my-12 p-4">
-        <section className="max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold mb-6">UPDATE BLOG</h3>
-          <form>
-            <div className="mb-4">
-              <label className="block mb-2 font-semibold">Category</label>
-              <select
-                className="w-full p-2 border rounded-md"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option value="">Select Category</option>
-                <option value="Devotion">Devotion</option>
-                <option value="Sports">Sports</option>
-                <option value="Coding">Coding</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Business">Business</option>
-              </select>
-            </div>
-            <input
-              type="text"
-              placeholder="BLOG MAIN TITLE"
-              className="w-full p-2 mb-4 border rounded-md"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <div className="mb-4">
-              <label className="block mb-2 font-semibold">BLOG IMAGE</label>
-              <img
-                src={
-                  blogImagePreview
-                    ? blogImagePreview
-                    : oldBlogImage
-                    ? oldBlogImage
-                    : "/imgPL.webp"
-                }
-                alt="Blog Main"
-                className="w-full h-48 object-cover mb-4 rounded-md"
-              />
-              <input
-                type="file"
-                className="w-full p-2 border rounded-md"
-                onChange={changePhotoHandler}
-              />
-            </div>
-            <textarea
-              rows="6"
-              className="w-full p-2 mb-4 border rounded-md"
-              placeholder="Something about your blog atleast 200 characters!"
-              value={about}
-              onChange={(e) => setAbout(e.target.value)}
-            />
-
-            <button
-              className="w-full p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              onClick={handleUpdate}
+    <div className="container mx-auto my-12 p-4">
+      <section className="max-w-2xl mx-auto">
+        <h3 className="text-2xl font-bold mb-6">UPDATE BLOG</h3>
+        <form onSubmit={handleUpdate}>
+          <div className="mb-4">
+            <label className="block mb-2 font-semibold">Category</label>
+            <select
+              className="w-full p-2 border rounded-md"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              disabled={loading}
             >
-              UPDATE
-            </button>
-          </form>
-        </section>
-      </div>
+              <option value="">Select Category</option>
+              <option value="Devotion">Devotion</option>
+              <option value="Sports">Sports</option>
+              <option value="Coding">Coding</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Business">Business</option>
+            </select>
+          </div>
+          <input
+            type="text"
+            placeholder="BLOG MAIN TITLE"
+            className="w-full p-2 mb-4 border rounded-md"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            disabled={loading}
+          />
+          <div className="mb-4">
+            <label className="block mb-2 font-semibold">BLOG IMAGE</label>
+            <img
+              src={
+                blogImagePreview || (oldBlogImage ? `${oldBlogImage}?${Date.now()}` : "/imgPL.webp")
+              }
+              alt="Blog Preview"
+              className="w-full h-48 object-cover mb-4 rounded-md"
+            />
+            <input
+              type="file"
+              className="w-full p-2 border rounded-md"
+              onChange={changePhotoHandler}
+              disabled={loading}
+            />
+          </div>
+          <textarea
+            rows="6"
+            className="w-full p-2 mb-4 border rounded-md"
+            placeholder="Write something about your blog"
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}
+            disabled={loading}
+          />
+          <button
+            type="submit"
+            className={`w-full p-3 text-white rounded-md ${loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            disabled={loading}
+          >
+            {loading ? "UPDATING..." : "UPDATE"}
+          </button>
+        </form>
+      </section>
     </div>
   );
 }
 
 export default UpdateBlog;
+
