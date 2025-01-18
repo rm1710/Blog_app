@@ -74,37 +74,37 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password, role } = req.body;
     try {
-      if (!email || !password || !role) {
-        return res.status(400).json({ message: "Please fill required fields" });
-      }
-      const user = await User.findOne({ email }).select("+password");
-      console.log(user);
-      if (!user.password) {
-        return res.status(400).json({ message: "User password is missing" });
-      }
-  
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!user || !isMatch) {
-        return res.status(400).json({ message: "Invalid email or password" });
-      }
-      if (user.role !== role) {
-        return res.status(400).json({ message: `Given role ${role} not found` });
-      }
-      let token = await createTokenAndSaveCookies(user._id, res);
-      console.log("Login: ", token);
-      res.status(200).json({
-        message: "User logged in successfully",
-        user: {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
-        token: token,
-      });
+        if (!email || !password || !role) {
+            return res.status(400).json({ message: "Please fill required fields" });
+        }
+        const user = await User.findOne({ email }).select("+password");
+        console.log(user);
+        if (!user.password) {
+            return res.status(400).json({ message: "User password is missing" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!user || !isMatch) {
+            return res.status(400).json({ message: "Invalid email or password" });
+        }
+        if (user.role !== role) {
+            return res.status(400).json({ message: `Given role ${role} not found` });
+        }
+        let token = await createTokenAndSaveCookies(user._id, res);
+        console.log("Login: ", token);
+        res.status(200).json({
+            message: "User logged in successfully",
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+            },
+            token: token,
+        });
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({ error: "Internal Server error" });
+        console.log(error);
+        return res.status(500).json({ error: "Internal Server error" });
     }
 };
 

@@ -12,14 +12,14 @@ function Dashboard() {
   const [component, setComponent] = React.useState("My Blogs");
   console.log(profile);
   console.log(isAuthenticated);
-  if(!isAuthenticated){
-    return <Navigate to="/"/>
+  if (!isAuthenticated) {
+    return <Navigate to="/" />
   }
   return (
     <div>
       <div><Sidebar component={component} setComponent={setComponent} />
-        {component === "My Profile" ? (<MyProfile />) : component === "Create Blog" ? (<CreateBlog />) : component === "Update Blog" ? (<UpdateBlog />) : (<MyBlogs/>)}
-        
+        {component === "My Profile" ? (<MyProfile />) : component === "Create Blog" ? (<CreateBlog />) : component === "Update Blog" ? (<UpdateBlog />) : (<MyBlogs />)}
+
       </div>
     </div>
   )

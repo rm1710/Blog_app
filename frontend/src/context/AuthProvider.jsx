@@ -9,18 +9,23 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:3000/api/users/my-profile",
-          {
-            withCredentials: true,
-            headers: { 'Content-Type': 'application/json' }
-          }
-        );
-        console.log(data);
-        setProfile(data);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.log(error)
+      if (isAuthenticated) {
+        try {
+          const { data } = await axios.get(
+            "http://localhost:3000/api/users/my-profile",
+            {
+              withCredentials: true,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log(data.user);
+          setProfile(data);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
     const fetchBlogs = async () => {
@@ -36,12 +41,12 @@ export const AuthProvider = ({ children }) => {
     };
     fetchBlogs();
     fetchProfile();
-  }, []);
+  }, [isAuthenticated]);
   return (
-    <AuthContext.Provider value={{ blogs, profile,setProfile, isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ blogs, profile, setProfile, isAuthenticated, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-export const useAuth = () => useContext(AuthContext)
+export const useAuth = () => useContext(AuthContext);
