@@ -7,26 +7,26 @@ import { toast } from 'react-hot-toast'
 
 
 function Details() {
-    const { id } = useParams();
-    const [blogs,setBlogs]=useState({});
-    console.log(blogs);
-    useEffect(() => {
-        const fetchBlog = async () => {
-          try {
-            const { data } = await axios.get(
-              `http://localhost:3000/api/blogs/single-blog/${id}`,
-              {
-                withCredentials: true,
-              }
-            );
-            console.log(data);
-            setBlogs(data);
-          } catch (error) {
-            console.log(error);
+  const { id } = useParams();
+  const [blogs, setBlogs] = useState({});
+  console.log(blogs);
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/blogs/single-blog/${id}`,
+          {
+            withCredentials: true,
           }
-        };
-        fetchBlog();
-      }, [id]);
+        );
+        console.log(data);
+        setBlogs(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchBlog();
+  }, [id]);
   return (
     <div>
       <div>

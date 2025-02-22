@@ -11,7 +11,7 @@ function MyBlogs() {
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
-        const { data } = await axios.get('http://localhost:3000/api/blogs/my-blog', { withCredentials: true });
+        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/blogs/my-blog`, { withCredentials: true });
         setMyBlogs(data.MyBlogs || []);
       } catch (error) {
         console.log(error);
@@ -22,7 +22,7 @@ function MyBlogs() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:3000/api/blogs/delete/${id}`, {
+      const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/blogs/delete/${id}`, {
         withCredentials: true,
       });
       toast.success(res.data.message || "Blog deleted successfully");

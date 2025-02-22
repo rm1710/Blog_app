@@ -31,7 +31,7 @@ function UpdateBlog() {
     const fetchBlog = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/api/blogs/single-blog/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/blogs/single-blog/${id}`,
           {
             withCredentials: true,
           }
@@ -63,7 +63,7 @@ function UpdateBlog() {
 
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/api/blogs/update/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/blogs/update/${id}`,
         formData,
         {
           withCredentials: true,

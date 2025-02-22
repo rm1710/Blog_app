@@ -22,7 +22,7 @@ function Login() {
       return; 
     }
     try{
-      const {data} = await axios.post('http://localhost:3000/api/users/Login',
+      const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/Login`,
       {email, password, role},
       {
         withCredentials: true,

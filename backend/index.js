@@ -13,13 +13,14 @@ dotenv.config();
 
 const port = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URI;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 //middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
@@ -29,12 +30,14 @@ app.use(fileUpload({
   tempFileDir: "/tmp/",
 }));
 
-try {
-  mongoose.connect(MONGO_URL)
-  console.log("connected to MongoDB")
-} catch (error) {
-  console.log(error)
-}
+mongoose.connect(MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log("Connected to MongoDB");
+}).catch((error) => {
+  console.error("Error connecting to MongoDB:", error);
+});
 
 app.use("/api/users", userRoute);
 app.use("/api/blogs", blogRoute);

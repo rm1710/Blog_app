@@ -28,7 +28,7 @@ function CreateBlog() {
     formData.append('blogImage', blogImage);
 
     try {
-      const { data } = await axios.post('http://localhost:3000/api/blogs/create', formData,
+      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/blogs/create`, formData,
         {
           withCredentials: true,
           headers: { 'Content-Type': 'multipart/form-data', }

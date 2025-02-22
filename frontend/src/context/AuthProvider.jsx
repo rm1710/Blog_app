@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       if (isAuthenticated) {
         try {
           const { data } = await axios.get(
-            "http://localhost:3000/api/users/my-profile",
+            `${import.meta.env.VITE_BACKEND_URL}/api/users/my-profile`,
             {
               withCredentials: true,
               headers: {
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     }
     const fetchBlogs = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/blogs/all-blogs",
+        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/blogs/all-blogs`,
           { withCredentials: true }
         );
         console.log(data);
