@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // token should be let type variable because its value will change in every login. (in backend also)
         let token = localStorage.getItem("jwt");
         console.log(token);
         if (token) {
@@ -21,6 +20,7 @@ export const AuthProvider = ({ children }) => {
               withCredentials: true,
               headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
               },
             }
           );
