@@ -30,6 +30,7 @@ function Login() {
       );
       console.log(data);
       toast.success(data.message ||'User Logined Successfully');
+      localStorage.setItem('jwt', data.token);
       setIsAuthenticated(true);
       setEmail('');
       setPassword('');
