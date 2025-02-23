@@ -2,6 +2,7 @@ import React from 'react';
 import Hero from '../Home/Hero';
 import Trending from '../Home/Trending';
 import Creator from '../Home/Creator';
+import Devotional from '../Home/Devotional';
 
 function Home() {
   return (
@@ -9,6 +10,7 @@ function Home() {
       {/* Changed gradient to include three different colors: from green-200, via yellow-300, to pink-400 */}
       <Hero />
       <Trending />
+      <Devotional />
       <Creator />
     </div>
   );

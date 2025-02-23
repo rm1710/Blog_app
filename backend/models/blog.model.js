@@ -34,10 +34,10 @@ const blogSchema = new mongoose.Schema(
 
         },
         createdBy: {
-            type: mongoose.Schema.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-    }
+    },{timestamps: true}
 )
 
 export const Blog = mongoose.model('Blog', blogSchema)

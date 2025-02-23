@@ -67,9 +67,14 @@ export const deleteBlog = async (req, res) => {
 };
 
 export const getAllBlogs = async (req, res) => {
-    const allblogs = await Blog.find();
-    res.status(200).json({ allblogs });
+    try {
+        const allblogs = await Blog.find().sort({ createdAt: -1 });
+        res.status(200).json({ allblogs });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
 };
+
 
 export const getSingleBlogs = async (req, res) => {
     const { id } = req.params;

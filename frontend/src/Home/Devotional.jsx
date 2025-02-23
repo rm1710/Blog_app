@@ -4,18 +4,14 @@ import { Link } from "react-router-dom";
 
 function Devotional() {
   const { blogs } = useAuth();
-  
+
   // Filter blogs by category 'devotional'
-  const devotionalBlogs = blogs?.allblogs?.filter((blog) => blog.category === "devotional");
+  const devotionalBlogs = blogs?.allblogs?.filter((blog) => blog.category === "Devotion");
 
   return (
     <div>
       <div className="container mx-auto my-12 p-4">
         <h1 className="text-2xl font-bold mb-6">Devotional</h1>
-        <p className="text-center mb-8">
-          The concept of gods varies widely across different cultures,
-          religions, and belief systems.
-        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {devotionalBlogs && devotionalBlogs.length > 0 ? (
             devotionalBlogs.map((blog, index) => (

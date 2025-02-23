@@ -1,15 +1,16 @@
-import React from 'react'
-import { useEffect } from 'react'
-import axios from 'axios'
-import { useParams } from 'react-router-dom'
-import { useState } from 'react'
-import { toast } from 'react-hot-toast'
-
+import React from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { format } from 'date-fns';
 
 function Details() {
   const { id } = useParams();
   const [blogs, setBlogs] = useState({});
   console.log(blogs);
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
@@ -27,6 +28,7 @@ function Details() {
     };
     fetchBlog();
   }, [id]);
+
   return (
     <div>
       <div>
@@ -44,7 +46,9 @@ function Details() {
               />
               <p className="text-lg font-semibold">{blogs?.adminName}</p>
             </div>
-
+            <div className="text-gray-500 text-sm mb-6">
+              {blogs?.createdAt && format(new Date(blogs.createdAt), 'MMMM dd, yyyy h:mm a')}
+            </div>
             <div className="flex flex-col md:flex-row">
               {blogs?.blogImage && (
                 <img
@@ -62,7 +66,7 @@ function Details() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Details
+export default Details;

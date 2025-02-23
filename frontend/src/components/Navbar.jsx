@@ -46,14 +46,14 @@ function Navbar() {
               {show ? <IoCloseSharp size={24} /> : <AiOutlineMenu size={24} />}
             </div>
           </div>
-          <div className="flex space-x-2">
+          <div className="hidden md:flex space-x-2">
             {isAuthenticated && profile?.role === "admin" && (
               <Link
-              to="/dashboard"
-              className="bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 px-4 py-2 rounded"
-            >
-              DASHBOARD
-            </Link>
+                to="/dashboard"
+                className="bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 px-4 py-2 rounded"
+              >
+                DASHBOARD
+              </Link>
             )}
             {!isAuthenticated ? (
               <Link to="/login" className='bg-blue-600 text-white font-semibold hover:bg-blue-500 duration-300 px-4 py-2 rounded'>LOGIN</Link>
@@ -65,12 +65,40 @@ function Navbar() {
         {/* Mobile Navbar */}
         {show && (
           <div className='md:hidden'>
-            <ul className='flex flex-col h-screen items-center justify-center space-y-3 md:hidden text-xl'>
+            <ul className='flex flex-col h-screen items-center justify-center space-y-3 text-xl'>
               <Link to="/" onClick={() => setShow(!show)}>HOME</Link>
               <Link to="/blogs" onClick={() => setShow(!show)}>BLOGS</Link>
               <Link to="/creators" onClick={() => setShow(!show)}>CREATORS</Link>
               <Link to="/about" onClick={() => setShow(!show)}>ABOUT</Link>
               <Link to="/contact" onClick={() => setShow(!show)}>CONTACT</Link>
+              {isAuthenticated && profile?.role === "admin" && (
+                <Link
+                  to="/dashboard"
+                  onClick={() => setShow(!show)}
+                  className="bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 px-4 py-2 rounded"
+                >
+                  DASHBOARD
+                </Link>
+              )}
+              {!isAuthenticated ? (
+                <Link
+                  to="/login"
+                  onClick={() => setShow(!show)}
+                  className='bg-blue-600 text-white font-semibold hover:bg-blue-500 duration-300 px-4 py-2 rounded'
+                >
+                  LOGIN
+                </Link>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    handleLogout(e);
+                    setShow(!show);
+                  }}
+                  className='bg-red-600 text-white font-semibold hover:bg-red-500 duration-300 px-4 py-2 rounded'
+                >
+                  LOGOUT
+                </button>
+              )}
             </ul>
           </div>
         )}
@@ -80,4 +108,3 @@ function Navbar() {
 }
 
 export default Navbar;
-

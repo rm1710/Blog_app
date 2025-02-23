@@ -28,7 +28,7 @@ function Trending() {
   return (
     <div className="container mx-auto">
       <h1 className="text-2xl font-semibold mb-4">Trending</h1>
-      <Carousel responsive={responsive} itemClass="px-2">
+      <Carousel responsive={responsive} itemClass="px-2 py-2">
         {blogs && blogs.allblogs && blogs.allblogs.length > 0 ? (
           blogs.allblogs.slice(0, 6).map((element) => {
             console.log(element);
