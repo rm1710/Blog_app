@@ -126,5 +126,5 @@ export const getMyProfile = async (req, res) => {
 
 export const getAdmins = async (req, res) => {
     const admins = await User.find({ role: "admin" });
-    res.status(200).json(admins);
+    res.status(200).json({admins});
 };
