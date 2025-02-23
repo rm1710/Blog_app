@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 export const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
   const [blogs, setBlogs] = useState();
   const [profile, setProfile] = useState();
@@ -9,8 +10,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      if (isAuthenticated) {
-        try {
+      try {
+        // token should be let type variable because its value will change in every login. (in backend also)
+        let token = localStorage.getItem("jwt");
+        console.log(token);
+        if (token) {
           const { data } = await axios.get(
             `${import.meta.env.VITE_BACKEND_URL}/api/users/my-profile`,
             {
@@ -21,11 +25,11 @@ export const AuthProvider = ({ children }) => {
             }
           );
           console.log(data.user);
-          setProfile(data);
+          setProfile(data.user);
           setIsAuthenticated(true);
-        } catch (error) {
-          console.log(error)
         }
+      } catch (error) {
+        console.log(error);
       }
     }
     const fetchBlogs = async () => {
