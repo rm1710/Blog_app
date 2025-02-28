@@ -13,7 +13,7 @@ function Creators() {
         } 
       );
       console.log(data);
-      setCreators(data);
+      setCreators(data.admins);
     };
     fetchAdmins();
   }, []);
