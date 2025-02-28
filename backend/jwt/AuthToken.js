@@ -8,7 +8,11 @@ const createTokenAndSaveCookies = async (userId, res) => {
   await User.findByIdAndUpdate(userId, { token });
   res.cookie("jwt", token, {
     httpOnly: true,
+<<<<<<< HEAD
     secure: process.env.NODE_ENV === 'production',
+=======
+    secure: process.env.NODE_ENV === "production",
+>>>>>>> 7ccb245f2ce203636afdd93e0309ae4e9fa7508c
     sameSite: "Strict",
   });
   return token;
