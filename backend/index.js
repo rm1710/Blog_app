@@ -7,6 +7,7 @@ import blogRoute from "./routes/blog.route.js";
 import fileUpload from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
+import helmet from "helmet";
 
 const app = express();
 dotenv.config();
@@ -18,6 +19,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL;
 //middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet());
 app.use(
   cors({
     origin: FRONTEND_URL,
@@ -47,6 +49,11 @@ cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET // Click 'View API Keys' above to copy your API secret
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
 
 app.listen(port, () => {
