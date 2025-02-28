@@ -11,7 +11,7 @@ import Register from '../src/pages/Register';
 import Dashboard from '../src/pages/Dashboard';
 import Creators from '../src/pages/Creators';
 import UpdateBlog from '../src/dashboard/UpdateBlog';
-import { useAuth } from "./context/AuthProvider";
+import { useAuth } from './context/AuthProvider';
 import { Toaster } from 'react-hot-toast';
 import Details from './pages/Details';
 import Notfound from './pages/Notfound';
