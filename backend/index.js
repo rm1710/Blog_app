@@ -18,6 +18,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL;
 //middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet());
 app.use(
   cors({
     origin: FRONTEND_URL,
